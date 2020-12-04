@@ -5,5 +5,5 @@ const s = serve({ port: 8000});
 for await (const req of s) {
     req.respond({
         body: '<h1>Hello Deno: Byron</h1>'
-    })
+    });
 }
