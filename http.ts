@@ -1,5 +1,6 @@
 import { Application, send, Router } from './deps.ts';
 import { bold, yellow } from "https://deno.land/std@0.77.0/fmt/colors.ts"
+import { getMovies, getMovie } from "./api/movies/methods.ts";
 
 const app = new Application();
 const router = new Router()
@@ -14,6 +15,13 @@ router.get('/hi', (ctx) => {
             }
         }
     }
+}).get('/api/movies', async(ctx) => {
+    const movies = await getMovies();
+    ctx.response.body = movies;
+})
+.get('/api/movie/:id', async(ctx) => {
+    const movies = await getMovie(ctx.params.id);
+    ctx.response.body = movies;
 })
 
 
