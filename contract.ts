@@ -1,4 +1,6 @@
-import Ask from "https://deno.land/x/ask/mod.ts";
+import Ask from "https://deno.land/x/ask@1.0.5/mod.ts";
+
+// we can add version to the url 
 
 const ask = new Ask();
 
