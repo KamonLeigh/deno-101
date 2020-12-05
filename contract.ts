@@ -1,7 +1,26 @@
-let customer = "Wes Bos";
-let freelancer = "Byron Dunkley";
-//let date "05-01-21";
-let services = "Web development"
+import Ask from "https://deno.land/x/ask/mod.ts";
+
+const ask = new Ask();
+
+const answers = await ask.prompt([
+    {
+        name: "customer",
+        type: "input",
+        message: "Who is the customer?"
+    },
+    {
+        name: "freelancer",
+        type: "input",
+        message: "Who is the freelancer?"
+    },
+    {
+        name: "services",
+        type: "input",
+        message: "What are services are provided?"
+    }
+]);
+
+const { customer, freelancer, services } = answers;
 
 const contractTemplate = await Deno.readTextFile("./template.txt");
 const contract = contractTemplate
@@ -10,7 +29,7 @@ const contract = contractTemplate
                     //.replaceAll("[date]", date)
                     .replaceAll("[services]", services);
 
-const file = await Deno.writeTextFile(`${customer}-contract.txt`, contract)
+await Deno.writeTextFile(`${customer}-contract.txt`, contract)
 
 console.log('contract complete');
 
