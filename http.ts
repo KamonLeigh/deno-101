@@ -1,12 +1,27 @@
-import { Application } from './deps.ts';
+import { Application, send } from './deps.ts';
+import { bold, yellow } from "https://deno.land/std@0.77.0/fmt/colors.ts"
 
 const app = new Application();
 
 // ctx is similar to ((req, res) => {}) cb in node 
-// deno run --allow-net http.ts
+// deno run --allow-net --allow-read http.ts
 
-app.use((ctx) => {
-    ctx.response.body = "Hello World!"
+app.use( async (ctx) => {
+   
+   try {
+       await send(ctx, ctx.request.url.pathname, {
+           root: `${Deno.cwd()}/static`,
+           index: "index.html"
+       });
+   } catch (e) {
+        console.log('error', e);
+   }
 })
 
-await app.listen({ port: 8000 });
+app.addEventListener("listen", ({ hostname, port}) => {
+    console.log(
+        bold("Start listening on ") + yellow(`${hostname}:${port}`)
+    )
+})
+
+await app.listen({ hostname: "127.0.01", port: 8000 });
