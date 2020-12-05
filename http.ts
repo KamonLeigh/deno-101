@@ -1,11 +1,23 @@
-import { Application, send } from './deps.ts';
+import { Application, send, Router } from './deps.ts';
 import { bold, yellow } from "https://deno.land/std@0.77.0/fmt/colors.ts"
 
 const app = new Application();
+const router = new Router()
 
-// ctx is similar to ((req, res) => {}) cb in node 
-// deno run --allow-net --allow-read http.ts
+router.get('/hi', (ctx) => {
+    ctx.response.body = {
+        hello: {
+            from: {
+                the: {
+                    router: "hi"
+                }
+            }
+        }
+    }
+})
 
+
+app.use(router.routes());
 app.use( async (ctx) => {
    
    try {
