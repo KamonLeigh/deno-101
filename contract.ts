@@ -1,4 +1,4 @@
-import Ask from "https://deno.land/x/ask@1.0.5/mod.ts";
+import  { Ask } from "./deps.ts";
 
 // we can add version to the url 
 
