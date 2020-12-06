@@ -16,12 +16,31 @@ router.get('/hi', (ctx) => {
         }
     }
 }).get('/api/movies', async(ctx) => {
+    console.log('movies route')
     const movies = await getMovies();
     ctx.response.body = movies;
 })
 .get('/api/movie/:id', async(ctx) => {
     const movies = await getMovie(ctx.params.id);
     ctx.response.body = movies;
+})
+
+
+// logger
+app.use( async(ctx, next) => {
+    await next();
+    const responseTime = ctx.response.headers.get("X-Response-Time")
+    console.log(`${ctx.request.method}: ${ctx.request.url}:${responseTime}`) 
+
+})
+
+// timer
+app.use(async (ctx, next) => {
+    const startTime = Date.now();
+    await next()
+    const endTime = Date.now();
+    const difference = endTime - startTime;
+    ctx.response.headers.set("X-Response-Time", `${difference}ms`)
 })
 
 
