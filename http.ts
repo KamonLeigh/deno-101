@@ -1,5 +1,5 @@
-import { Application, send, Router } from './deps.ts';
-import { bold, yellow } from "https://deno.land/std@0.77.0/fmt/colors.ts"
+import { Application, send, Router, Status } from './deps.ts';
+import { bold, yellow, red, green } from "https://deno.land/std@0.77.0/fmt/colors.ts"
 import { getMovies, getMovie } from "./api/movies/methods.ts";
 
 const app = new Application();
@@ -44,17 +44,36 @@ app.use(async (ctx, next) => {
 })
 
 
+// error
+app.use(async(ctx, next) => {
+    try {
+        await next()
+    } catch(e) {
+        // log error
+        console.error("error middleware", red(e.message), e.status);
+
+        if (e.status === Status.NotFound) {
+            // send page to front end
+            await send(ctx, '404.html', {
+                root: `${Deno.cwd()}/static`
+            })
+        } else {
+            throw e
+        }
+
+    }
+
+})
+
 app.use(router.routes());
 app.use( async (ctx) => {
    
-   try {
+
        await send(ctx, ctx.request.url.pathname, {
            root: `${Deno.cwd()}/static`,
            index: "index.html"
        });
-   } catch (e) {
-        console.log('error', e);
-   }
+  
 })
 
 app.addEventListener("listen", ({ hostname, port}) => {
