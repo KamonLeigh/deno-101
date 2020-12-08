@@ -1,3 +1,6 @@
+//import { config } from "https://deno.land/x/dotenv@v1.0.1/mod.ts";
+import "https://deno.land/x/dotenv@v1.0.1/load.ts"
+
 import { Application, send, Router, Status } from './deps.ts';
 import { bold, yellow, red, green } from "https://deno.land/std@0.77.0/fmt/colors.ts"
 import { logger } from './api/middlware/logger.ts';
@@ -7,6 +10,14 @@ import { staticFiles } from './api/middlware/static.ts'
 
 import { router } from './api/routes.ts'
 
+
+//  denon run --allow-net --allow-read --allow-env  http.ts allow access to env
+// denon run -A command that allows all
+// console.log(config());
+// const { API_KEY } = config();
+// console.log(API_KEY);
+
+console.log(Deno.env.get("API_KEY"));
 
 
 // Deno run -r = reload importss
