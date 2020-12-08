@@ -10,6 +10,11 @@ import { staticFiles } from './api/middlware/static.ts'
 
 import { router } from './api/routes.ts'
 
+/**
+ *  Try and bundle file using the following methos
+ *   deno bundle http.ts http.bundle.js
+ */
+
 
 //  denon run --allow-net --allow-read --allow-env  http.ts allow access to env
 // denon run -A command that allows all
